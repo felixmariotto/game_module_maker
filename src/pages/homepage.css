@@ -12,9 +12,15 @@
 		height: var( --navbar-height );
 		width: 100%;
 		background-color: green;
+		display: flex;
+		flex-direction: row;
 	}
 
-	#tabs-container {
-		position: fixed;
-		top: var( --navbar-height );
-	}
+		#taskbar {
+			min-width: 20px;
+		}
+
+		#tabs-container {
+			display: flex;
+			flex-direction: row-reverse;
+		}

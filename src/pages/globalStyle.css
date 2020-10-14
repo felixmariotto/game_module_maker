@@ -1,4 +1,8 @@
 
 :root {
-	--navbar-height: 50px;
+	--navbar-height: 30px;
+}
+
+* {
+	font-family: 'Roboto', sans-serif;
 }

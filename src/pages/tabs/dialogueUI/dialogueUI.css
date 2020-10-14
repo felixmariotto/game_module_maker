@@ -1,0 +1,5 @@
+
+#dialogue-ui-tab,
+#dialogue-ui-tab > * {
+	background-color: yellow;
+}

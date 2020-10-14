@@ -1,0 +1,5 @@
+
+#dialogues-tab,
+#dialogues-tab > * {
+	background-color: orange;
+}

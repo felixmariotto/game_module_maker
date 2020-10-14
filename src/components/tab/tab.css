@@ -1,6 +1,26 @@
 
 .tab {
+	position: relative;
 	background-color: red;
-	height: 100px;
-	width: 100px;
+	height: calc( 100% - 2px );
+	top: 2px;
+	border-radius: calc( var( --navbar-height ) / 3 ) calc( var( --navbar-height ) / 3 ) 0 0;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0 15px 0 15px;
 }
+
+	.tab > * {
+		cursor: default;
+	}
+
+	.tab-content {
+		background-color: purple;
+		position: fixed;
+		top: var( --navbar-height );
+		left: 0;
+		height: calc( 100% - var( --navbar-height ) );
+		width: 100%;
+	}
