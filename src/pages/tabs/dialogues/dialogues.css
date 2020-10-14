@@ -1,5 +1,18 @@
 
+#dialogues-tab {
+	display: flex;
+}
+
 #dialogues-tab,
 #dialogues-tab > * {
 	background-color: orange;
 }
+
+	#dialogues-tools-panel {
+		position: relative;
+		height: 50%;
+		max-width: 100px;
+		background-color: red;
+		resize: horizontal;
+		overflow: auto;
+	}

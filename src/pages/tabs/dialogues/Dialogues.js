@@ -2,6 +2,7 @@
 import './dialogues.css';
 
 import Tab from '../../../components/tab/Tab.js';
+import ModulableAreas from '../../../components/modulableAreas/ModulableAreas.js';
 
 import commandManager from '../../../commandManager.js';
 
@@ -21,7 +22,13 @@ tab.id = 'dialogues-tab';
 
 tab.setName( 'Dialogues' );
 
-//test
+	// MODULABLE AREAS
+
+	const modulableAreas = ModulableAreas( 'x', [ 20, 80 ] );
+
+	tab.getContent().append( modulableAreas.container );
+
+// command firing test
 tab.addEventListener( 'click', () => {
 
 	commandManager.addCommand( MODULE_NAME, 'test', {foo: 'bar'} )
