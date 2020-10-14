@@ -1,1 +1,2 @@
-console.log('prout')
+
+import Homepage from './pages/Homepage.js';
