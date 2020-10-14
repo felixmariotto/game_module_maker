@@ -33,7 +33,7 @@ export default function ModulableAreas( resizeDirection, percentsArray ) {
 
 	const sections = [];
 
-	percentsArray.forEach( ( sectionSize, idx, arr ) => {
+	percentsArray.forEach( ( sectionSize, thisSectionIdx, arr ) => {
 
 		const section = Section( resizeDirection );
 
@@ -43,11 +43,82 @@ export default function ModulableAreas( resizeDirection, percentsArray ) {
 
 		// optionaly add a separation line
 
-		if ( idx < arr.length - 1 ) {
+		if ( thisSectionIdx < arr.length - 1 ) {
 
 			const separationLine = SeparationLine( resizeDirection );
 
 			container.append( separationLine );
+
+			let isGrabbing, newPosition;
+
+			separationLine.addEventListener( 'mousedown', (e) => {
+
+				isGrabbing = true;
+
+			})
+
+			window.addEventListener( 'mousemove', (e) => {
+
+				if ( isGrabbing !== undefined ) {
+
+					const rect = container.getBoundingClientRect();
+					const clientX = e.clientX - rect.left; //x position within the element.
+					const clientY = e.clientY - rect.top;  //y position within the element.
+
+					newPosition = resizeDirection === "x" ? clientX : clientY;
+
+					const percentPos = resizeDirection === "x" ?
+						( newPosition / rect.width ) * 100 :
+						( newPosition / rect.height ) * 100 ;
+
+					// recompute size of each section
+
+					percentsArray = percentsArray.map( (sectionSize, sectionToUpdateIdx) => {
+
+						if (
+							sectionToUpdateIdx !== thisSectionIdx &&
+							sectionToUpdateIdx !== thisSectionIdx + 1
+						) {
+
+							return sectionSize
+
+						} else if ( sectionToUpdateIdx == thisSectionIdx ) {
+
+							return Math.max(
+								0,
+								Math.min(
+									95,
+									percentPos - percentsArray.reduce( (accu, val, j) => j < sectionToUpdateIdx ? accu + val : accu, 0 )
+								)
+							)
+
+						} else if ( sectionToUpdateIdx == thisSectionIdx + 1 ) {
+
+							return Math.max(
+								0,
+								Math.min(
+									100,
+									100 - ( percentPos + percentsArray.reduce( (accu, val, j) => j > sectionToUpdateIdx ? accu + val : accu, 0 ) )
+								)
+							)
+
+						}
+
+					})
+
+					// resize dom
+
+					resizeSections();
+
+				}
+
+			})
+
+			window.addEventListener( 'mouseup', (e) => {
+
+				isGrabbing = undefined
+
+			})
 
 		}
 
@@ -90,8 +161,6 @@ function Section( resizeDirection ) {
 			section.style.width = percent + "%";
 
 		} else {
-
-
 
 			section.style.height = percent + "%";
 

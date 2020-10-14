@@ -24,16 +24,18 @@ tab.setName( 'Dialogues' );
 
 	// MODULABLE AREAS
 
-	const modulableAreas = ModulableAreas( 'x', [ 20, 80 ] );
+	const modulableAreas = ModulableAreas( 'x', [ 30, 20, 30, 20 ] );
 
 	tab.getContent().append( modulableAreas.container );
 
+/*
 // command firing test
 tab.addEventListener( 'click', () => {
 
 	commandManager.addCommand( MODULE_NAME, 'test', {foo: 'bar'} )
 
 })
+*/
 
 // COMMAND LISTENER AND PARSER
 
