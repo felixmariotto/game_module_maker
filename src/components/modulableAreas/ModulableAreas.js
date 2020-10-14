@@ -3,6 +3,10 @@ import './modulableAreas.css';
 
 //
 
+const MIN_PERCENT = 5; // percent under which a section cannot be reduced
+
+//
+
 /*
 the argument of this function is an array containing an
 arbitrary number of numbers which must sum to 100. These
@@ -67,9 +71,17 @@ export default function ModulableAreas( resizeDirection, percentsArray ) {
 
 					newPosition = resizeDirection === "x" ? clientX : clientY;
 
-					const percentPos = resizeDirection === "x" ?
+					let percentPos = resizeDirection === "x" ?
 						( newPosition / rect.width ) * 100 :
 						( newPosition / rect.height ) * 100 ;
+
+					// clamp new target limit to within surrounding section limits
+
+					const min = percentsArray.reduce( (accu, val, j) => j < thisSectionIdx ? accu + val : accu, 0 )
+
+					const max = 100 - percentsArray.reduce( (accu, val, j) => j > thisSectionIdx + 1 ? accu + val : accu, 0 )
+
+					percentPos = Math.max( min + MIN_PERCENT, Math.min( max - MIN_PERCENT, percentPos ) );
 
 					// recompute size of each section
 
@@ -84,23 +96,11 @@ export default function ModulableAreas( resizeDirection, percentsArray ) {
 
 						} else if ( sectionToUpdateIdx == thisSectionIdx ) {
 
-							return Math.max(
-								0,
-								Math.min(
-									95,
-									percentPos - percentsArray.reduce( (accu, val, j) => j < sectionToUpdateIdx ? accu + val : accu, 0 )
-								)
-							)
+							return percentPos - percentsArray.reduce( (accu, val, j) => j < sectionToUpdateIdx ? accu + val : accu, 0 )
 
 						} else if ( sectionToUpdateIdx == thisSectionIdx + 1 ) {
 
-							return Math.max(
-								0,
-								Math.min(
-									100,
-									100 - ( percentPos + percentsArray.reduce( (accu, val, j) => j > sectionToUpdateIdx ? accu + val : accu, 0 ) )
-								)
-							)
+							return 100 - ( percentPos + percentsArray.reduce( (accu, val, j) => j > sectionToUpdateIdx ? accu + val : accu, 0 ) )
 
 						}
 
